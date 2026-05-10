@@ -749,7 +749,7 @@
       cursor: pointer; transition: all 0.15s;
     }
     .vp-cell:last-child { border-right: none; }
-    .vp-cell:hover { opacity: 0.85; }
+    .vp-cell:hover { filter: brightness(0.95); }
     .vp-label-row { position: relative; width: calc(11 * 56px); height: 20px; }
     .vp-label {
       position: absolute; font-size: 13px; font-weight: 500; color: #757575;
@@ -1328,6 +1328,13 @@
     }
   }
 
+  function bgWithAlpha(colorStr, alpha) {
+    const rgba = colorStr.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/);
+    if (rgba) return `rgba(${rgba[1]}, ${rgba[2]}, ${rgba[3]}, ${alpha})`;
+    if (colorStr.startsWith('#')) return hexToRgba(colorStr, alpha);
+    return colorStr;
+  }
+
   function populateViewPanel() {
     // Sync question text
     const titleText = document.getElementById('editor-q-title')?.innerText || '';
@@ -1341,10 +1348,31 @@
       const cell = document.createElement('div');
       cell.className = 'vp-cell';
       cell.textContent = i;
-      cell.style.background = ec.style.background || '#F1F1F1';
+      const origBg = ec.style.background || '#F1F1F1';
+      cell.style.background = origBg;
+      cell.dataset.origBg = origBg;
       cell.style.boxShadow = ec.style.boxShadow || '';
       cell.style.borderRight = ec.style.borderRight || '';
       cell.style.borderRadius = ec.style.borderRadius || '';
+      cell.addEventListener('click', () => {
+        const allCells = vpScale.querySelectorAll('.vp-cell');
+        const alreadySelected = cell.classList.contains('selected');
+        allCells.forEach(c => {
+          c.classList.remove('selected');
+          c.style.background = c.dataset.origBg;
+        });
+        if (alreadySelected) {
+          vpScale.classList.remove('has-selection');
+        } else {
+          cell.classList.add('selected');
+          vpScale.classList.add('has-selection');
+          allCells.forEach(c => {
+            if (!c.classList.contains('selected')) {
+              c.style.background = bgWithAlpha(c.dataset.origBg, 0.3);
+            }
+          });
+        }
+      });
       vpScale.appendChild(cell);
     });
     // Sync scale overflow from editor scale
