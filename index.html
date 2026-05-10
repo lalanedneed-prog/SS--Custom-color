@@ -1212,8 +1212,8 @@
               <input class="sc-range-input" type="number" value="0" min="0" max="10" disabled/>
               <span class="sc-dash">–</span>
               <div class="sc-range-select">
-                <select class="sc-select">
-                  <option>5</option><option>4</option><option>3</option><option>6</option>
+                <select class="sc-select" id="row0-end">
+                  <option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option selected>5</option><option>6</option><option>7</option><option>8</option>
                 </select>
               </div>
             </div>
@@ -1234,11 +1234,11 @@
             <input class="sc-input-label" type="text" value="Neutral" placeholder="Label"/>
             <div class="sc-range">
               <div class="sc-range-select">
-                <select class="sc-select"><option>6</option><option>5</option><option>7</option></select>
+                <select class="sc-select" id="row1-start"><option>6</option></select>
               </div>
               <span class="sc-dash">–</span>
               <div class="sc-range-select">
-                <select class="sc-select"><option>8</option><option>7</option><option>9</option></select>
+                <select class="sc-select" id="row1-end"><option>6</option><option>7</option><option selected>8</option><option>9</option></select>
               </div>
             </div>
             <div class="sc-color-field disabled" data-default="#FCBD4F">
@@ -1254,7 +1254,7 @@
             <input class="sc-input-label" type="text" value="Most Likely" placeholder="Label"/>
             <div class="sc-range">
               <div class="sc-range-select">
-                <select class="sc-select"><option>9</option><option>8</option></select>
+                <select class="sc-select" id="row2-start"><option>9</option></select>
               </div>
               <span class="sc-dash">–</span>
               <input class="sc-range-input" type="number" value="10" min="0" max="10" disabled/>
@@ -1478,8 +1478,45 @@
     inp.addEventListener('input', syncNpsLabels);
   });
 
+  function setSelectOptions(sel, min, max, selected) {
+    const cur = selected !== undefined ? selected : parseInt(sel.value);
+    sel.innerHTML = '';
+    for (let v = min; v <= max; v++) {
+      const opt = document.createElement('option');
+      opt.value = v; opt.textContent = v;
+      if (v === cur) opt.selected = true;
+      sel.appendChild(opt);
+    }
+  }
+
+  function cascadeRanges() {
+    const row0End  = document.getElementById('row0-end');
+    const row1Start = document.getElementById('row1-start');
+    const row1End  = document.getElementById('row1-end');
+    const row2Start = document.getElementById('row2-start');
+    if (!row0End || !row1Start || !row1End || !row2Start) return;
+
+    const end0 = parseInt(row0End.value);           // e.g. 1
+    const start1 = end0 + 1;                        // locked → 2
+    setSelectOptions(row1Start, start1, start1, start1);  // show only the locked value
+
+    // Row1 end must be >= start1 and <= 9
+    const curEnd1 = Math.max(parseInt(row1End.value), start1);
+    setSelectOptions(row1End, start1, 9, curEnd1);
+
+    const end1 = parseInt(row1End.value);
+    const start2 = end1 + 1;                        // locked
+    setSelectOptions(row2Start, start2, start2, start2);
+
+    syncNpsLabels();
+    applyColorsToScale();
+  }
+
+  // Init on load
+  cascadeRanges();
+
   document.querySelectorAll('.sc-select').forEach(sel => {
-    sel.addEventListener('change', syncNpsLabels);
+    sel.addEventListener('change', cascadeRanges);
   });
 
   function hexToRgba(hex, alpha) {
