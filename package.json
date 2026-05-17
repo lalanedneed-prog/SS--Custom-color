@@ -1,6 +1,7 @@
 {
   "name": "ss-custom-color",
   "version": "1.0.0",
+  "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -8,5 +9,13 @@
   },
   "devDependencies": {
     "vite": "^5.0.0"
+  },
+  "dependencies": {
+    "@sparrowengg/twigs-react": "^0.38.0",
+    "@sparrowengg/twigs-react-icons": "^0.4.1",
+    "@vitejs/plugin-react": "^4.7.0",
+    "react": "^19.2.6",
+    "react-colorful": "^5.7.0",
+    "react-dom": "^19.2.6"
   }
 }
