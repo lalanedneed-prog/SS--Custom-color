@@ -5,6 +5,8 @@ import Sidebar from './components/Sidebar.jsx';
 import NpsScale from './components/NpsScale.jsx';
 import OptionsPanel from './components/OptionsPanel.jsx';
 import ViewPanel from './components/ViewPanel.jsx';
+import SurveyThrottling from './components/SurveyThrottling.jsx';
+import GeneralSettings from './components/GeneralSettings.jsx';
 
 const CELL_WIDTH = 56;
 
@@ -30,6 +32,14 @@ function computeRangeData(row0End, row1Start, row1End, row2Start, colors, custom
 }
 
 export default function App() {
+  // Panel + modal state
+  const [activePanel, setActivePanel] = useState('questions'); // 'questions' | 'settings'
+  const [throttlingOpen, setThrottlingOpen] = useState(false);
+
+  const handleSettingsClick = () => {
+    setActivePanel(prev => prev === 'settings' ? 'questions' : 'settings');
+  };
+
   // Tab state
   const [activeTab, setActiveTab] = useState('Edit'); // 'Edit' | 'View'
 
@@ -159,12 +169,19 @@ export default function App() {
       <TopNav />
 
       <div className="layout">
-        <IconRail />
-        <Sidebar questionTitle={questionTitle} />
+        <IconRail
+          activePanel={activePanel}
+          onBuilderClick={() => setActivePanel('questions')}
+          onSettingsClick={handleSettingsClick}
+        />
+        {activePanel === 'settings'
+          ? <GeneralSettings onOpenThrottling={() => setThrottlingOpen(true)} />
+          : <Sidebar questionTitle={questionTitle} />
+        }
 
         <main className="main">
-          {/* Edit/View toggle bar */}
-          <div className="edit-view-bar">
+          {/* Edit/View toggle bar — hidden in settings mode */}
+          <div className="edit-view-bar" style={{ display: activePanel === 'settings' ? 'none' : undefined }}>
             <div className="ev-toggle">
               {['Edit', 'View'].map(tab => (
                 <button
@@ -179,7 +196,7 @@ export default function App() {
           </div>
 
           {/* Edit panel */}
-          {isEdit && (
+          {activePanel !== 'settings' && isEdit && (
             <>
               <div className="question-editor">
                 <div className="q-title-row">
@@ -275,8 +292,8 @@ export default function App() {
             </>
           )}
 
-          {/* View panel */}
-          {!isEdit && (
+          {/* View panel — shown in view mode, or as preview in settings mode */}
+          {(activePanel === 'settings' || !isEdit) && (
             <ViewPanel
               questionTitle={questionTitle}
               rangeData={rangeData}
@@ -289,6 +306,7 @@ export default function App() {
           )}
         </main>
       </div>
+      <SurveyThrottling open={throttlingOpen} onClose={() => setThrottlingOpen(false)} />
     </div>
   );
 }

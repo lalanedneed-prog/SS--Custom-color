@@ -164,6 +164,98 @@ svg { display: block; }
 .rail-btn:hover { background: var(--neutral100); }
 .rail-btn.active { background: #E2E6EB; }
 
+/* ── General Settings Panel ───────────────────────────────────── */
+.gs-panel {
+  width: 420px;
+  background: #FFFFFF;
+  border-right: 1px solid var(--neutral200);
+  display: flex; flex-direction: column;
+  flex-shrink: 0; overflow: hidden;
+}
+.gs-header {
+  height: 56px;
+  display: flex; align-items: center;
+  padding: 0 20px;
+  flex-shrink: 0;
+}
+.gs-title {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 1.4375rem; font-weight: 700; color: #111111;
+  margin: 0;
+}
+.gs-body-wrap {
+  flex: 1; position: relative; overflow: hidden;
+}
+.gs-body {
+  height: 100%; overflow-y: auto;
+  padding: 20px;
+  display: flex; flex-direction: column; gap: 0;
+  scrollbar-width: none;
+}
+.gs-body::-webkit-scrollbar { display: none; }
+.gs-scrollbar-track {
+  position: absolute; right: 4px; top: 4px; bottom: 4px;
+  width: 4px; pointer-events: none;
+}
+.gs-scrollbar-thumb {
+  position: absolute; right: 0; width: 4px;
+  background: rgba(0,0,0,0.25); border-radius: 4px;
+  transition: opacity 0.3s ease;
+}
+.gs-card {
+  background: #fff;
+  border: 1px solid #0000001A;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 16px;
+  display: flex; flex-direction: column; gap: 0;
+  box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.08);
+}
+.gs-field-group {
+  display: flex; flex-direction: column; gap: 6px;
+  margin-bottom: 16px;
+}
+.gs-field-label {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px; font-weight: 500; color: var(--secondary700);
+}
+.gs-section {
+  padding-top: 16px;
+}
+.gs-section-title {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.875rem; font-weight: 700; color: #111111;
+  margin: 0 0 4px;
+}
+.gs-toggle-row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 2px 0;
+}
+.gs-toggle-label {
+  display: flex; align-items: center; gap: 4px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px; color: var(--secondary700);
+}
+.gs-info-btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  background: transparent; border: none; cursor: pointer;
+  color: var(--secondary400); padding: 0; vertical-align: middle;
+}
+.gs-info-btn:hover { color: var(--secondary600); }
+.gs-url-group { display: flex; flex-direction: column; gap: 6px; }
+.gs-url-label-row {
+  display: flex; align-items: center; justify-content: space-between;
+}
+.gs-url-domain {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px; color: var(--secondary600);
+}
+.gs-url-tag {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10px; font-weight: 600; color: var(--secondary400);
+  letter-spacing: 0.04em;
+}
+
 /* ── Questions Sidebar ────────────────────────────────────────── */
 .sidebar {
   width: 420px;
@@ -907,5 +999,173 @@ svg { display: block; }
   background: transparent; border: none;
   font-size: var(--font-xs); font-weight: var(--fw-5);
   color: var(--secondary500); cursor: pointer;
+}
+
+/* ── Survey Throttling Modal ─────────────────────────────────────── */
+.st-close-btn {
+  display: flex; align-items: center; justify-content: center;
+  width: 32px; height: 32px;
+  background: transparent; border: none; cursor: pointer;
+  border-radius: 8px; padding: 4px;
+  color: var(--secondary500);
+}
+.st-close-btn:hover { background: var(--neutral100); }
+
+.st-description {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px; color: var(--secondary600);
+  margin: 0;
+}
+
+/* Mode cards */
+.st-mode-row {
+  display: flex; gap: 12px;
+}
+.st-mode-card {
+  flex: 1; display: flex; flex-direction: column; align-items: flex-start; gap: 0;
+  padding: 8px 12px;
+  background: #fff;
+  border: 1px solid var(--neutral200);
+  border-radius: 12px;
+  cursor: pointer; text-align: left;
+  transition: border-color 0.15s, background 0.15s;
+}
+.st-mode-card:hover { border-color: var(--primary); }
+.st-mode-card.active {
+  border: 1.5px solid #00828D;
+  background: rgba(0, 130, 141, 0.06);
+  box-shadow: 0px 4px 8px 0px rgba(0,0,0,0.04), 0px 1px 0px 0px rgba(0,0,0,0.03);
+}
+.st-mode-title {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px; font-weight: 500; color: #2B2B2B;
+  line-height: 20px;
+}
+.st-mode-desc {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px; font-weight: 400; color: #757575;
+  line-height: 16px;
+}
+
+/* Event variable */
+.st-event-variable {
+  display: flex; flex-direction: column; gap: 6px;
+}
+
+/* Field label */
+.st-field-label {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px; font-weight: 500; color: #575757;
+  line-height: 16px;
+}
+
+/* Conditions section */
+.st-conditions-section {
+  display: flex; flex-direction: column; gap: 12px;
+}
+.st-conditions-header {
+  display: flex; align-items: center; justify-content: space-between;
+}
+.st-conditions-title {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px; font-weight: 600; color: var(--secondary900);
+}
+.st-link-btn {
+  display: inline-flex; align-items: center; gap: 2px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px; font-weight: 500; line-height: 20px;
+  color: #64748B;
+  background: none; border: none; cursor: pointer; padding: 0;
+}
+.st-link-btn:hover { color: #475569; }
+
+/* Conditions fields */
+.st-conditions-fields {
+  display: flex; flex-direction: column; gap: 12px;
+  background: #fff;
+  border: 1px solid rgba(0,0,0,0.1);
+  border-radius: 8px;
+  padding: 20px 16px 16px;
+}
+.st-other-cases-label {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px; font-weight: 600; color: var(--primary);
+}
+.st-fields-row {
+  display: flex; align-items: center; gap: 16px;
+}
+.st-fields-left {
+  display: flex; align-items: flex-end; gap: 8px;
+}
+.st-field-group {
+  display: flex; flex-direction: column; gap: 4px;
+}
+.st-interval-wrap {
+  display: flex; gap: 4px;
+}
+.st-gap-stepper {
+  display: flex; align-items: center;
+  width: 134px; height: 32px;
+  border: 1px solid rgba(0,0,0,0.15);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.st-gap-value {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px; font-weight: 400; color: #111;
+  flex: 1; text-align: center; line-height: 20px;
+}
+
+/* Exception When/Then block */
+.st-when-block {
+  display: flex; flex-direction: column; gap: 10px;
+  background: #FAFAFA;
+  border: 1px solid var(--neutral200);
+  border-radius: 8px;
+  padding: 14px 16px;
+}
+.st-when-header {
+  display: flex; align-items: center; justify-content: space-between;
+}
+.st-when-label, .st-then-label {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px; font-weight: 600; color: var(--secondary900);
+}
+.st-when-actions {
+  display: flex; gap: 4px;
+}
+.st-icon-btn {
+  display: flex; align-items: center; justify-content: center;
+  width: 28px; height: 28px;
+  background: transparent; border: none; cursor: pointer;
+  color: var(--secondary500); border-radius: 6px;
+}
+.st-icon-btn:hover { background: var(--neutral100); }
+.st-condition-chip-row {
+  display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+}
+.st-condition-chip {
+  display: flex; align-items: center; gap: 5px;
+  padding: 4px 10px;
+  background: #fff; border: 1px solid var(--neutral200); border-radius: 20px;
+  font-family: 'DM Sans', sans-serif; font-size: 13px; color: var(--secondary700);
+}
+.st-chip-text { color: var(--secondary500); }
+.st-chip-value { font-weight: 500; color: var(--secondary900); }
+.st-add-condition-btn {
+  display: flex; align-items: center; justify-content: center;
+  width: 24px; height: 24px;
+  background: transparent; border: 1.5px solid var(--primary); border-radius: 50%;
+  cursor: pointer; color: var(--primary);
+}
+.st-add-condition-btn:hover { background: var(--primary50); }
+.st-then-row {
+  display: flex; align-items: center; gap: 10px;
+}
+.st-action-chip {
+  display: flex; align-items: center; gap: 6px;
+  padding: 4px 10px;
+  background: #fff; border: 1px solid var(--neutral200); border-radius: 20px;
+  font-family: 'DM Sans', sans-serif; font-size: 13px; color: var(--secondary700);
 }
 .btn-recode:hover { color: var(--secondary900); }
